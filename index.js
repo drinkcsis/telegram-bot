@@ -10,17 +10,21 @@ bot.onText(/\/conv (.+)/, async function (msg, match) {
     const fromId    = msg.from.id;
     const args      = match[1] || '';
     let [currencyFrom, currencyTo, amount] = args.split(' ');
-    if (currencyFrom && currencyTo && amount) {
-        try {
-            const exchangeData = await exchangerate.getExchangeRate(currencyFrom, currencyTo, amount);
-            if (exchangeData.result === 'success') {
-                bot.sendMessage(fromId, messageService.getSuccessMessage(exchangeData, amount));
-            }
-        } catch (e) {
-            console.error(e);
+
+    if (currencyFrom === undefined || currencyTo === undefined && amount === undefined) {
+        bot.sendMessage(fromId, messageService.getValidationErrorMessage());
+    }
+
+    try {
+        const exchangeData = await exchangerate.getExchangeRate(currencyFrom, currencyTo, amount);
+        
+        if (exchangeData.result === 'success') {
+            bot.sendMessage(fromId, messageService.getSuccessMessage(exchangeData, amount));
+        }
+    } catch (e) {
+        console.error(e);
+        if (e instanceof ApiException) {
             bot.sendMessage(fromId, messageService.getErrorMessage());
         }
-    } else {
-        bot.sendMessage(fromId, messageService.getValidationErrorMessage());
     }
 });

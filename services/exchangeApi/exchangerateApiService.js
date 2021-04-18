@@ -11,12 +11,11 @@ export default {
             if (response.data.result === 'success') {
                 return response.data;
             } else {
-                throw response.data['error-type'];
+                throw new ApiException(response.data['error-type']);
             }
         } catch (e) {
-            console.log(e);
-            const apiException = new ApiException(e.message);
-            throw apiException;
+            console.error(e);
+            throw e;
         }
     }
 }
