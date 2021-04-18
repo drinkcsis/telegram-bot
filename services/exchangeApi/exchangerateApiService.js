@@ -1,8 +1,10 @@
-const axios         = require('axios');
-const ApiException = require('./ApiException');
-const { exchangerateToken } = require('../../conf');
+import axios        from 'axios';
+import ApiException from './ApiException';
+import config       from '../../conf';
 
-module.exports = {
+const { exchangerateToken } = config;
+
+export default {
     getExchangeRate: async function (currencyFrom, currencyTo, amount) {
         try {
             const response = await axios.get(`https://v6.exchangerate-api.com/v6/${exchangerateToken}/pair/${currencyFrom}/${currencyTo}/${amount}`);

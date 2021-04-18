@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     getSuccessMessage: function (exchangeData, amount) {
         return `${amount} ${exchangeData.base_code} = ${exchangeData.conversion_result} ${exchangeData.target_code}.\n\rRate:${exchangeData.conversion_rate}`;
     },

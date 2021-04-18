@@ -1,8 +1,9 @@
-const TelegramBot       =  require('node-telegram-bot-api');
-const exchangerate      = require('./services/exchangeApi/exchangerateApiService');
-const messageService    = require('./services/messages/messageService');
-const { telegramToken } = require('./conf');
+import TelegramBot          from 'node-telegram-bot-api';
+import exchangerate         from './services/exchangeApi/exchangerateApiService';
+import messageService       from './services/messages/messageService';
+import config from './conf';
 
+const { telegramToken } = config;
 const bot = new TelegramBot(telegramToken, { polling: true });
 
 bot.onText(/\/conv (.+)/, async function (msg, match) {
