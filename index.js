@@ -17,10 +17,7 @@ bot.onText(/\/conv (.+)/, async function (msg, match) {
 
     try {
         const exchangeData = await exchangeRateService.getExchangeRate(currencyFrom, currencyTo, amount);
-
-        if (exchangeData.result === 'success') {
-            bot.sendMessage(fromId, messageService.getSuccessMessage(exchangeData, amount));
-        }
+        bot.sendMessage(fromId, messageService.getSuccessMessage(exchangeData, amount));
     } catch (e) {
         console.error(e);
         if (e instanceof ApiException) {
