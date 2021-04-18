@@ -1,7 +1,7 @@
-import TelegramBot          from 'node-telegram-bot-api';
-import exchangerate         from './services/exchangeApi/exchangerateApiService';
+import exchangeRateService  from './services/exchangeApi/exchangerateApiService';
 import messageService       from './services/messages/messageService';
-import config from './conf';
+import TelegramBot          from 'node-telegram-bot-api';
+import config               from './conf';
 
 const { telegramToken } = config;
 const bot = new TelegramBot(telegramToken, { polling: true });
@@ -16,8 +16,8 @@ bot.onText(/\/conv (.+)/, async function (msg, match) {
     }
 
     try {
-        const exchangeData = await exchangerate.getExchangeRate(currencyFrom, currencyTo, amount);
-        
+        const exchangeData = await exchangeRateService.getExchangeRate(currencyFrom, currencyTo, amount);
+
         if (exchangeData.result === 'success') {
             bot.sendMessage(fromId, messageService.getSuccessMessage(exchangeData, amount));
         }
